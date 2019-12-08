@@ -1,6 +1,6 @@
-﻿using System;
+﻿using GameFrame.Networking.Serialization;
+using System;
 using System.Net.Sockets;
-using UnityEngine;
 
 namespace GameFrame.Networking.NetworkConnector.Tcp
 {
@@ -29,7 +29,6 @@ namespace GameFrame.Networking.NetworkConnector.Tcp
 
             try
             {
-                Debug.Log("Sending data");
                 _networkStream.Write(data, 0, data.Length);
             }
             catch (System.Exception e)

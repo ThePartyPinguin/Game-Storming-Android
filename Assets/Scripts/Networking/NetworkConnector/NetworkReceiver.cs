@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using GameFrame.Networking.Exception;
+﻿using GameFrame.Networking.Exception;
 using GameFrame.Networking.Messaging.MessageHandling;
-using UnityEngine;
+using System;
+using System.Threading;
 
 namespace GameFrame.Networking.NetworkConnector
 {
@@ -53,7 +51,7 @@ namespace GameFrame.Networking.NetworkConnector
             }
             catch (System.Exception e)
             {
-                Debug.Log(e);
+                Console.WriteLine(e);
             }
             
         }

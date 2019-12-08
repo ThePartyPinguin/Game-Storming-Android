@@ -1,9 +1,9 @@
-﻿using System;
+﻿using GameFrame.Networking.Messaging.Message;
+using GameFrame.Networking.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using GameFrame.Networking.Messaging.Message;
-using UnityEngine;
 
 namespace GameFrame.Networking.NetworkConnector
 {
@@ -26,7 +26,6 @@ namespace GameFrame.Networking.NetworkConnector
 
         public void QueueNewMessageToSend(NetworkMessage<TEnum> message)
         {
-            Debug.Log("Queuing new message to send");
             _networkMessagesQueueToSend.Enqueue(message);
 
             if (!_senderTaskRunning)
@@ -36,7 +35,6 @@ namespace GameFrame.Networking.NetworkConnector
                 _senderTask = new Task(Send);
                 _senderTask.GetAwaiter().OnCompleted(SendTaskStopped);
                 _senderTask.Start();
-                Debug.Log("Started task to send message");
             }
         }
 
@@ -69,7 +67,6 @@ namespace GameFrame.Networking.NetworkConnector
 
         protected virtual void Setup()
         {
-            Debug.Log("Send task setup completed");
             _setupComplete = true;
         }
     }

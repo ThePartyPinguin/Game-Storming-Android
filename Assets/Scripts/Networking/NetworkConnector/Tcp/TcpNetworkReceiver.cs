@@ -1,8 +1,7 @@
-﻿using System;
+﻿using GameFrame.Networking.Messaging.MessageHandling;
+using System;
 using System.Net.Sockets;
 using System.Threading;
-using GameFrame.Networking.Messaging.MessageHandling;
-using UnityEngine;
 
 namespace GameFrame.Networking.NetworkConnector.Tcp
 {
@@ -43,7 +42,6 @@ namespace GameFrame.Networking.NetworkConnector.Tcp
                 int dataAvailable = _tcpClient.Available;
                 if (dataAvailable > 0)
                 { 
-                    Debug.Log("received data");
                     byte[] buffer = new byte[dataAvailable];
                     _networkStream.Read(buffer, 0, buffer.Length);
                     return buffer;

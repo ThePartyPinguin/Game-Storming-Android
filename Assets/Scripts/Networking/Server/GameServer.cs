@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Sockets;
-using System.Threading;
-using GameFrame.Networking.Messaging;
-using GameFrame.Networking.Messaging.Message;
+﻿using GameFrame.Networking.Messaging.Message;
 using GameFrame.Networking.Messaging.MessageHandling;
 using GameFrame.Networking.NetworkConnector;
 using GameFrame.Networking.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Net.Sockets;
+using System.Threading;
 
 namespace GameFrame.Networking.Server
 {

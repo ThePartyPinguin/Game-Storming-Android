@@ -3,9 +3,8 @@ using System.Threading;
 using GameFrame.Networking.Messaging.Message;
 using GameFrame.Networking.Messaging.MessageHandling;
 using GameFrame.Networking.NetworkConnector;
-using UnityEngine;
 
-namespace Assets.Scripts.Networking.Client
+namespace GameFrame.Networking.Client
 {
     internal class GameClient<TEnum> where TEnum : Enum
     {
@@ -30,7 +29,6 @@ namespace Assets.Scripts.Networking.Client
 
         private void OnReceiveHandShakeResponse(ServerToClientHandshakeResponse<TEnum> message, Guid connectorId)
         {
-            Debug.Log("Received handshake: " + message.Accepted);
             if (!message.Accepted)
             {
                 _isConnected = false;
@@ -50,7 +48,6 @@ namespace Assets.Scripts.Networking.Client
         private void OnReceiveServerDisconnect(ServerDisconnectMessage<TEnum> message, Guid connectorId)
         {
             _isConnected = false;
-            Debug.Log("Server stopped");
             OnConnectionLost?.Invoke();
             StopWithoutSendingEvent();
         }

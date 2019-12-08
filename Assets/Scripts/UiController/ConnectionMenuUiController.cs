@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using GameFrame.Networking.Client;
 using GameFrame.Networking.Exception;
 using GameFrame.Networking.Serialization;
 using TMPro;
@@ -30,6 +31,10 @@ public class ConnectionMenuUiController : MonoBehaviour
 
     void Start()
     {
+        if (PlayerPrefs.HasKey("LastConnectedServer"))
+        {
+            IpInputField.text = PlayerPrefs.GetString("Last connected server");
+        }
         ConnectMessageLabel.text = "Enter server ip to connect";
         NetworkManager.OnConnectedAction += OnConnected;
 
@@ -62,6 +67,9 @@ public class ConnectionMenuUiController : MonoBehaviour
         _connectionSettings.UseUdp = false;
 
         _connectionSettings.ServerIpAddress = ParseIpAddress(IpInputField.text);
+
+        PlayerPrefs.SetString("LastConnectedServer", IpInputField.text);
+        PlayerPrefs.Save();
 
         NetworkManager.SetSettings(_connectionSettings);
 
@@ -125,6 +133,8 @@ public class ConnectionMenuUiController : MonoBehaviour
         if (string.IsNullOrWhiteSpace(idea))
             return;
 
+        NetworkManager.SendSecureMessage(new IdeaNetworkMessage(NetworkEvent.CLIENT_SEND_IDEA, idea));
+        NetworkManager.SendSecureMessage(new IdeaNetworkMessage(NetworkEvent.CLIENT_SEND_IDEA, idea));
         NetworkManager.SendSecureMessage(new IdeaNetworkMessage(NetworkEvent.CLIENT_SEND_IDEA, idea));
     }
 
