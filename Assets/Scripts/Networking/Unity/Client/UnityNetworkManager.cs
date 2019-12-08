@@ -2,12 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using Assets.Scripts.Networking.Client;
 using GameFrame.Networking.Exception;
 using GameFrame.Networking.Messaging.Message;
 using GameFrame.Networking.Messaging.MessageHandling;
 using GameFrame.Networking.NetworkConnector;
 using GameFrame.Networking.Serialization;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -157,7 +160,7 @@ public class UnityNetworkManager : MonoSingleton<UnityNetworkManager>
         _gameClient.Stop();
         Debug.Log("quit");
     }
-
+    
     [Serializable]
     public class ClientIdCallback : UnityEvent<Guid>
     {
@@ -174,5 +177,10 @@ public class UnityNetworkManager : MonoSingleton<UnityNetworkManager>
     {
         _callbackToCallInCoRoutine.Invoke(_gameClient.ClientId);
         yield break;
+    }
+
+    public void SendSecureMessage(BaseNetworkMessage message)
+    {
+        _gameClient?.SecureSendMessage(message);
     }
 }

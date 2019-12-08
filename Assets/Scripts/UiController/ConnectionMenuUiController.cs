@@ -10,15 +10,23 @@ using UnityEngine.UI;
 
 public class ConnectionMenuUiController : MonoBehaviour
 {
+
     public TMP_InputField IpInputField;
+    public TMP_InputField IdeaInputField;
     public TMP_Text ConnectMessageLabel;
 
+    [Space]
     public Button ConnectButton;
+    public List<GameObject> ObjectsToDisableOnConnect;
+    public List<GameObject> ObjectsToEnableOnConnect;
+
+    [Space]
     public Button DisconnectButton;
 
     public UnityNetworkManager NetworkManager;
 
     private ClientConnectionSettings<NetworkEvent> _connectionSettings;
+
 
     void Start()
     {
@@ -30,7 +38,15 @@ public class ConnectionMenuUiController : MonoBehaviour
         ConnectButton.onClick.AddListener(CheckInteractableState);
         DisconnectButton.onClick.AddListener(CheckInteractableState);
 
+        foreach (var o in ObjectsToDisableOnConnect)
+        {
+            o.SetActive(true);
+        }
 
+        foreach (var o in ObjectsToEnableOnConnect)
+        {
+            o.SetActive(false);
+        }
     }
     public void Connect()
     {
@@ -74,12 +90,42 @@ public class ConnectionMenuUiController : MonoBehaviour
         Debug.Log("Connected");
         ConnectMessageLabel.text = playerId.ToString();
         DisconnectButton.interactable = true;
+
+        foreach (var o in ObjectsToDisableOnConnect)
+        {
+            o.SetActive(false);
+        }
+
+        foreach (var o in ObjectsToEnableOnConnect)
+        {
+            o.SetActive(true);
+        }
     }
 
     public void OnConnectFailed(Guid playerId)
     {
         ConnectButton.interactable = true;
         ConnectMessageLabel.text = "Connection failed, please try again";
+
+        foreach (var o in ObjectsToDisableOnConnect)
+        {
+            o.SetActive(true);
+        }
+
+        foreach (var o in ObjectsToEnableOnConnect)
+        {
+            o.SetActive(false);
+        }
+    }
+
+    public void SendIdea()
+    {
+        string idea = IdeaInputField.text;
+
+        if (string.IsNullOrWhiteSpace(idea))
+            return;
+
+        NetworkManager.SendSecureMessage(new IdeaNetworkMessage(NetworkEvent.CLIENT_SEND_IDEA, idea));
     }
 
     private void CheckInteractableState()
