@@ -5,6 +5,8 @@ using System.Net;
 using GameFrame.Networking.Client;
 using GameFrame.Networking.Exception;
 using GameFrame.Networking.Serialization;
+using GameFrame.UnityHelpers.Networking;
+using GameFrame.UnityHelpers.Networking.Client;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,45 +15,36 @@ public class ConnectionMenuUiController : MonoBehaviour
 {
 
     public TMP_InputField IpInputField;
-    public TMP_InputField IdeaInputField;
     public TMP_Text ConnectMessageLabel;
 
     [Space]
     public Button ConnectButton;
-    public List<GameObject> ObjectsToDisableOnConnect;
-    public List<GameObject> ObjectsToEnableOnConnect;
-
-    [Space]
     public Button DisconnectButton;
 
-    public UnityNetworkManager NetworkManager;
+    [Space]
+    public RegisterNameMenuUiController RegisterNameMenuUiController;
+
+    private UnityNetworkManager _networkManager;
 
     private ClientConnectionSettings<NetworkEvent> _connectionSettings;
 
 
     void Start()
     {
+        _networkManager = UnityNetworkManager.Instance;
+
+        RegisterNameMenuUiController.gameObject.SetActive(false);
+
         if (PlayerPrefs.HasKey("LastConnectedServer"))
         {
             IpInputField.text = PlayerPrefs.GetString("Last connected server");
         }
         ConnectMessageLabel.text = "Enter server ip to connect";
-        NetworkManager.OnConnectedAction += OnConnected;
 
-        CheckInteractableState();
+        _networkManager.OnConnected.AddListener(OnConnected);
 
-        ConnectButton.onClick.AddListener(CheckInteractableState);
-        DisconnectButton.onClick.AddListener(CheckInteractableState);
-
-        foreach (var o in ObjectsToDisableOnConnect)
-        {
-            o.SetActive(true);
-        }
-
-        foreach (var o in ObjectsToEnableOnConnect)
-        {
-            o.SetActive(false);
-        }
+        ConnectButton.interactable = true;
+        DisconnectButton.interactable = false;
     }
     public void Connect()
     {
@@ -71,14 +64,14 @@ public class ConnectionMenuUiController : MonoBehaviour
         PlayerPrefs.SetString("LastConnectedServer", IpInputField.text);
         PlayerPrefs.Save();
 
-        NetworkManager.SetSettings(_connectionSettings);
+        _networkManager.SetSettings(_connectionSettings);
 
-        NetworkManager.Connect();
+        _networkManager.Connect();
     }
 
     public void Disconnect()
     {
-        NetworkManager.Disconnect();
+        _networkManager.Disconnect();
     }
 
     private IPAddress ParseIpAddress(string ipAddress)
@@ -98,49 +91,19 @@ public class ConnectionMenuUiController : MonoBehaviour
         Debug.Log("Connected");
         ConnectMessageLabel.text = playerId.ToString();
         DisconnectButton.interactable = true;
+        ConnectButton.interactable = false;
 
-        foreach (var o in ObjectsToDisableOnConnect)
-        {
-            o.SetActive(false);
-        }
-
-        foreach (var o in ObjectsToEnableOnConnect)
-        {
-            o.SetActive(true);
-        }
+        this.gameObject.SetActive(false);
+        RegisterNameMenuUiController.gameObject.SetActive(true);
     }
 
     public void OnConnectFailed(Guid playerId)
     {
         ConnectButton.interactable = true;
+        DisconnectButton.interactable = false;
         ConnectMessageLabel.text = "Connection failed, please try again";
 
-        foreach (var o in ObjectsToDisableOnConnect)
-        {
-            o.SetActive(true);
-        }
-
-        foreach (var o in ObjectsToEnableOnConnect)
-        {
-            o.SetActive(false);
-        }
-    }
-
-    public void SendIdea()
-    {
-        string idea = IdeaInputField.text;
-
-        if (string.IsNullOrWhiteSpace(idea))
-            return;
-
-        NetworkManager.SendSecureMessage(new IdeaNetworkMessage(NetworkEvent.CLIENT_SEND_IDEA, idea));
-        NetworkManager.SendSecureMessage(new IdeaNetworkMessage(NetworkEvent.CLIENT_SEND_IDEA, idea));
-        NetworkManager.SendSecureMessage(new IdeaNetworkMessage(NetworkEvent.CLIENT_SEND_IDEA, idea));
-    }
-
-    private void CheckInteractableState()
-    {
-        ConnectButton.interactable = !NetworkManager.IsConnected();
-        DisconnectButton.interactable = NetworkManager.IsConnected();
+        this.gameObject.SetActive(true);
+        RegisterNameMenuUiController.gameObject.SetActive(false);
     }
 }
