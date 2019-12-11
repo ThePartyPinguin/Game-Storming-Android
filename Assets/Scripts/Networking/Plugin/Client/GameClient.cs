@@ -68,11 +68,14 @@ namespace GameFrame.Networking.Client
             _networkConnector.Setup(_connectionSettings.SerializationType);
             _networkConnector.SetupCallbacks(OnConnectionFailed, OnConnectionLost);
 
-            _networkConnector.Connect();
+            bool connected = _networkConnector.Connect();
 
-            _networkConnector.StartTcp();
+            if (connected)
+            {
+                _networkConnector.StartTcp();
 
-            SecureSendMessage(new ClientToServerHandshakeRequest<TEnum>(_connectionSettings.ClientToServerHandshakeEvent));
+                SecureSendMessage(new ClientToServerHandshakeRequest<TEnum>(_connectionSettings.ClientToServerHandshakeEvent));
+            }
         }
 
         /// <summary>

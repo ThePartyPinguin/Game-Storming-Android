@@ -37,7 +37,7 @@ public class ConnectionMenuUiController : MonoBehaviour
 
         if (PlayerPrefs.HasKey("LastConnectedServer"))
         {
-            IpInputField.text = PlayerPrefs.GetString("Last connected server");
+            IpInputField.text = PlayerPrefs.GetString("LastConnectedServer");
         }
         ConnectMessageLabel.text = "Enter server ip to connect";
 
@@ -67,6 +67,17 @@ public class ConnectionMenuUiController : MonoBehaviour
         _networkManager.SetSettings(_connectionSettings);
 
         _networkManager.Connect();
+        StartCoroutine(CheckConnectionFailed());
+    }
+
+    private IEnumerator CheckConnectionFailed()
+    {
+        yield return new WaitForSeconds(10f);
+
+        if (_networkManager.GameClient != null && !_networkManager.GameClient.IsConnected)
+        {
+            ConnectButton.interactable = true;
+        }
     }
 
     public void Disconnect()
@@ -92,6 +103,15 @@ public class ConnectionMenuUiController : MonoBehaviour
         ConnectMessageLabel.text = playerId.ToString();
         DisconnectButton.interactable = true;
         ConnectButton.interactable = false;
+
+        try
+        {
+            StopCoroutine(CheckConnectionFailed());
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
 
         this.gameObject.SetActive(false);
         RegisterNameMenuUiController.gameObject.SetActive(true);

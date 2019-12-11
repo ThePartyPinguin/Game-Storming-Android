@@ -159,7 +159,7 @@ namespace GameFrame.Networking.NetworkConnector
         /// <summary>
         /// Try to connect the tcp client, if succeed, start the message receiver
         /// </summary>
-        public void Connect()
+        public bool Connect()
         {
             if (!_setupComplete)
                 throw new NotSetupCorrectlyException("The " + this.GetType() + " was not setup correct, please run setup() before connecting");
@@ -169,12 +169,13 @@ namespace GameFrame.Networking.NetworkConnector
                 _tcpClient = new TcpClient();
                 _tcpClient.Connect(_ipAddress, _tcpReceivePort);
                 Console.WriteLine("Connected");
+                return true;
             }
             catch (System.Exception e)
             {
                 Console.WriteLine(e);
                 _onConnectionFailed?.Invoke();
-                throw;
+                return false;
             }
         }
 

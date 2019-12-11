@@ -132,11 +132,15 @@ namespace GameFrame.UnityHelpers.Networking.Client
                 
                 GameClient.OnConnectionFailed += () =>
                 {
-                    synchronousCallbackHandler.QueueCallbackToHandle(() => OnConnectFailed?.Invoke(Guid.Empty));
+                    Debug.Log("ConnectionFailed");
+                    synchronousCallbackHandler.QueueCallbackToHandle(() =>
+                    {
+                        Debug.Log("Handling onConnect failed, from the networkmanager");
+                        OnConnectFailed?.Invoke(Guid.Empty);
+                    });
                 };
                 GameClient.OnConnectionLost += () =>
                 {
-                    Debug.Log("ConnectionFailed");
                     synchronousCallbackHandler.QueueCallbackToHandle(() => OnConnectionInterrupted?.Invoke(Guid.Empty));
                 };
             }
