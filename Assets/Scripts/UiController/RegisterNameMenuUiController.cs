@@ -27,6 +27,7 @@ public class RegisterNameMenuUiController : MonoBehaviour
             return;
         SubmitButton.interactable = false;
         _networkManager.GameClient.AddAllowedEvent(NetworkEvent.SERVER_REGISTERED_CLIENT);
+        _networkManager.GameClient.AddAllowedEvent(NetworkEvent.SERVER_START_GAME);
 
         _networkManager.SendSecureMessage(new StringNetworkMessage(NetworkEvent.CLIENT_SEND_NAME, NameInputField.text));
     }
@@ -34,7 +35,6 @@ public class RegisterNameMenuUiController : MonoBehaviour
     public void OnServerRegisteredClient(EventOnlyNetworkMessage message, Guid clientId)
     {
         _networkManager.GameClient.RemoveAllowedEvent(NetworkEvent.SERVER_REGISTERED_CLIENT);
-
         SendIdeaMenuUiController?.gameObject.SetActive(true);
         this.gameObject.SetActive(false);
     }

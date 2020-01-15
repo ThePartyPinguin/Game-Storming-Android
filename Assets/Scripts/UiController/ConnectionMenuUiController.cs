@@ -65,7 +65,6 @@ public class ConnectionMenuUiController : MonoBehaviour
         PlayerPrefs.Save();
 
         _networkManager.SetSettings(_connectionSettings);
-
         _networkManager.Connect();
         StartCoroutine(CheckConnectionFailed());
     }
@@ -99,10 +98,14 @@ public class ConnectionMenuUiController : MonoBehaviour
 
     public void OnConnected(Guid playerId)
     {
+        _networkManager.GameClient.AddAllowedEvent(NetworkEvent.SERVER_REQUEST_TOPIC);
+        _networkManager.GameClient.AddAllowedEvent(NetworkEvent.SERVER_REQUEST_NAME);
+
         Debug.Log("Connected");
         ConnectMessageLabel.text = playerId.ToString();
         DisconnectButton.interactable = true;
         ConnectButton.interactable = false;
+
 
         try
         {
@@ -113,8 +116,8 @@ public class ConnectionMenuUiController : MonoBehaviour
             Debug.Log(e);
         }
 
-        this.gameObject.SetActive(false);
-        RegisterNameMenuUiController.gameObject.SetActive(true);
+        //this.gameObject.SetActive(false);
+        //RegisterNameMenuUiController.gameObject.SetActive(true);
     }
 
     public void OnConnectFailed(Guid playerId)

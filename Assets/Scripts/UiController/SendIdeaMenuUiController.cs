@@ -36,8 +36,6 @@ public class SendIdeaMenuUiController : MonoBehaviour
         SubmitButton.interactable = false;
         _buttonText.text = "Sending...";
 
-
-        _networkManager.SendSecureMessage(new StringNetworkMessage(NetworkEvent.CLIENT_SEND_IDEA, IdeaInputField.text));
         try
         {
             _networkManager.SendSecureMessage(new StringNetworkMessage(NetworkEvent.CLIENT_SEND_IDEA, IdeaInputField.text));
