@@ -10,20 +10,33 @@ public class SendIdeaMenuUiController : MonoBehaviour
 {
     public TMP_InputField IdeaInputField;
     public Button SubmitButton;
+    public SwipeController SwipeController;
+    public float AnimationSpeed;
 
     private TMP_Text _buttonText;
     private UnityNetworkManager _networkManager;
+    private Animator _animator;
 
     void Start()
     {
         _networkManager = UnityNetworkManager.Instance;
         _buttonText = SubmitButton.GetComponentInChildren<TMP_Text>();
+        _animator = GetComponent<Animator>();
+        SwipeController.OnSwiped += OnSwiped;
+    }
+
+    private void OnSwiped()
+    {
+        Debug.Log("Swipe callback invoked");
+        SendIdea();
     }
 
     public void SendIdea()
     {
         if(IdeaInputField == null || string.IsNullOrWhiteSpace(IdeaInputField.text))
             return;
+        _animator.speed = AnimationSpeed;
+        _animator.SetTrigger("SendTrigger");
 
         StartCoroutine(SendIdeaRoutine());
     }
