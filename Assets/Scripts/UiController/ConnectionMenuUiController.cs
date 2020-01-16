@@ -100,6 +100,7 @@ public class ConnectionMenuUiController : MonoBehaviour
     {
         _networkManager.GameClient.AddAllowedEvent(NetworkEvent.SERVER_REQUEST_TOPIC);
         _networkManager.GameClient.AddAllowedEvent(NetworkEvent.SERVER_REQUEST_NAME);
+        _networkManager.GameClient.AddAllowedEvent(NetworkEvent.SERVER_WAITING_ON_TOPIC);
 
         Debug.Log("Connected");
         ConnectMessageLabel.text = playerId.ToString();
