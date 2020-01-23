@@ -10,6 +10,7 @@ public class UiInitializer : MonoBehaviour
     public SendTopicMenuUiController SendTopicMenuUiController;
     public GameObject WaitingOnTopicScreen;
     public GameObject WaitingOnGameStartScreen;
+    public GameObject YourAreBuilderScreen;
 
     void Start()
     {
@@ -24,6 +25,7 @@ public class UiInitializer : MonoBehaviour
         SendTopicMenuUiController.gameObject.SetActive(false);
         WaitingOnTopicScreen.SetActive(false);
         WaitingOnGameStartScreen.SetActive(false);
+        YourAreBuilderScreen.SetActive(false);
     }
 
     public void OpenTopicMenu()
@@ -34,6 +36,7 @@ public class UiInitializer : MonoBehaviour
         SendTopicMenuUiController.gameObject.SetActive(true);
         WaitingOnTopicScreen.SetActive(false);
         WaitingOnGameStartScreen.SetActive(false);
+        YourAreBuilderScreen.SetActive(false);
     }
 
     public void OpenWaitingOnTopicScreen()
@@ -44,6 +47,7 @@ public class UiInitializer : MonoBehaviour
         SendTopicMenuUiController.gameObject.SetActive(false);
         WaitingOnTopicScreen.SetActive(true);
         WaitingOnGameStartScreen.SetActive(false);
+        YourAreBuilderScreen.SetActive(false);
     }
 
     public void OpenNameMenu()
@@ -54,6 +58,7 @@ public class UiInitializer : MonoBehaviour
         SendTopicMenuUiController.gameObject.SetActive(false);
         WaitingOnTopicScreen.SetActive(false);
         WaitingOnGameStartScreen.SetActive(false);
+        YourAreBuilderScreen.SetActive(false);
     }
 
     public void OpenIdeaMenu()
@@ -64,6 +69,7 @@ public class UiInitializer : MonoBehaviour
         SendTopicMenuUiController.gameObject.SetActive(false);
         WaitingOnTopicScreen.SetActive(false);
         WaitingOnGameStartScreen.SetActive(false);
+        YourAreBuilderScreen.SetActive(false);
     }
 
     public void OpenWaitingOnGameStartScreen()
@@ -73,6 +79,18 @@ public class UiInitializer : MonoBehaviour
         SendIdeaMenuUiController.gameObject.SetActive(false);
         SendTopicMenuUiController.gameObject.SetActive(false);
         WaitingOnTopicScreen.SetActive(false);
-        WaitingOnGameStartScreen.SetActive(transform);
+        WaitingOnGameStartScreen.SetActive(true);
+        YourAreBuilderScreen.SetActive(false);
+    }
+
+    public void OpenYourBuilderMenu()
+    {
+        ConnectionMenuUiController.gameObject.SetActive(false);
+        RegisterNameMenuUiController.gameObject.SetActive(false);
+        SendIdeaMenuUiController.gameObject.SetActive(false);
+        SendTopicMenuUiController.gameObject.SetActive(false);
+        WaitingOnTopicScreen.SetActive(false);
+        WaitingOnGameStartScreen.SetActive(false);
+        YourAreBuilderScreen.SetActive(true);
     }
 }

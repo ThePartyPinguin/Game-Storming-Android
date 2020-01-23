@@ -35,7 +35,9 @@ public class RegisterNameMenuUiController : MonoBehaviour
     public void OnServerRegisteredClient(EventOnlyNetworkMessage message, Guid clientId)
     {
         _networkManager.GameClient.RemoveAllowedEvent(NetworkEvent.SERVER_REGISTERED_CLIENT);
-        SendIdeaMenuUiController?.gameObject.SetActive(true);
+
+        _networkManager.GameClient.AddAllowedEvent(NetworkEvent.SERVER_ASSIGN_NEW_BUILDER);
+        _networkManager.GameClient.AddAllowedEvent(NetworkEvent.SERVER_STOP_BUILDER);
         this.gameObject.SetActive(false);
     }
 }
