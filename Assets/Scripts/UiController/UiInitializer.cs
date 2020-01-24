@@ -11,6 +11,7 @@ public class UiInitializer : MonoBehaviour
     public GameObject WaitingOnTopicScreen;
     public GameObject WaitingOnGameStartScreen;
     public GameObject YourAreBuilderScreen;
+    public GameObject EndGameScreen;
 
     void Start()
     {
@@ -26,6 +27,7 @@ public class UiInitializer : MonoBehaviour
         WaitingOnTopicScreen.SetActive(false);
         WaitingOnGameStartScreen.SetActive(false);
         YourAreBuilderScreen.SetActive(false);
+        EndGameScreen.SetActive(false);
     }
 
     public void OpenTopicMenu()
@@ -37,6 +39,7 @@ public class UiInitializer : MonoBehaviour
         WaitingOnTopicScreen.SetActive(false);
         WaitingOnGameStartScreen.SetActive(false);
         YourAreBuilderScreen.SetActive(false);
+        EndGameScreen.SetActive(false);
     }
 
     public void OpenWaitingOnTopicScreen()
@@ -48,6 +51,7 @@ public class UiInitializer : MonoBehaviour
         WaitingOnTopicScreen.SetActive(true);
         WaitingOnGameStartScreen.SetActive(false);
         YourAreBuilderScreen.SetActive(false);
+        EndGameScreen.SetActive(false);
     }
 
     public void OpenNameMenu()
@@ -59,6 +63,7 @@ public class UiInitializer : MonoBehaviour
         WaitingOnTopicScreen.SetActive(false);
         WaitingOnGameStartScreen.SetActive(false);
         YourAreBuilderScreen.SetActive(false);
+        EndGameScreen.SetActive(false);
     }
 
     public void OpenIdeaMenu()
@@ -70,6 +75,7 @@ public class UiInitializer : MonoBehaviour
         WaitingOnTopicScreen.SetActive(false);
         WaitingOnGameStartScreen.SetActive(false);
         YourAreBuilderScreen.SetActive(false);
+        EndGameScreen.SetActive(false);
     }
 
     public void OpenWaitingOnGameStartScreen()
@@ -81,6 +87,7 @@ public class UiInitializer : MonoBehaviour
         WaitingOnTopicScreen.SetActive(false);
         WaitingOnGameStartScreen.SetActive(true);
         YourAreBuilderScreen.SetActive(false);
+        EndGameScreen.SetActive(false);
     }
 
     public void OpenYourBuilderMenu()
@@ -92,5 +99,18 @@ public class UiInitializer : MonoBehaviour
         WaitingOnTopicScreen.SetActive(false);
         WaitingOnGameStartScreen.SetActive(false);
         YourAreBuilderScreen.SetActive(true);
+        EndGameScreen.SetActive(false);
+    }
+
+    public void OpenEndGameScreen()
+    {
+        ConnectionMenuUiController.gameObject.SetActive(false);
+        RegisterNameMenuUiController.gameObject.SetActive(false);
+        SendIdeaMenuUiController.gameObject.SetActive(false);
+        SendTopicMenuUiController.gameObject.SetActive(false);
+        WaitingOnTopicScreen.SetActive(false);
+        WaitingOnGameStartScreen.SetActive(false);
+        YourAreBuilderScreen.SetActive(false);
+        EndGameScreen.SetActive(true);
     }
 }

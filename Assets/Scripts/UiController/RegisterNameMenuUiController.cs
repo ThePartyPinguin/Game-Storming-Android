@@ -38,6 +38,7 @@ public class RegisterNameMenuUiController : MonoBehaviour
 
         _networkManager.GameClient.AddAllowedEvent(NetworkEvent.SERVER_ASSIGN_NEW_BUILDER);
         _networkManager.GameClient.AddAllowedEvent(NetworkEvent.SERVER_STOP_BUILDER);
+        _networkManager.GameClient.AddAllowedEvent(NetworkEvent.SERVER_END_GAME);
         this.gameObject.SetActive(false);
     }
 }
